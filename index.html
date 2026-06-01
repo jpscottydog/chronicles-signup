@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The AI Sessions Chronicles — Subscribe</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0a1a;
+            --bg-secondary: #121228;
+            --bg-card: #1a1a3e;
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0c0;
+            --accent-primary: #6366f1;
+            --accent-secondary: #8b5cf6;
+            --accent-glow: rgba(99, 102, 241, 0.3);
+            --border-color: rgba(255, 255, 255, 0.1);
+            --success: #22c55e;
+            --error: #ef4444;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            line-height: 1.6;
+        }
+
+        /* Animated background */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .bg-animation::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 20% 80%, rgba(99, 102, 241, 0.15) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 20%, rgba(139, 92, 246, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 40% 40%, rgba(99, 102, 241, 0.05) 0%, transparent 30%);
+            animation: bgFloat 20s ease-in-out infinite;
+        }
+
+        @keyframes bgFloat {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            33% { transform: translate(2%, 2%) rotate(1deg); }
+            66% { transform: translate(-1%, 1%) rotate(-1deg); }
+        }
+
+        /* Header */
+        header {
+            position: relative;
+            z-index: 10;
+            padding: 1.5rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: var(--text-primary);
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--text-primary);
+        }
+
+        /* Main content */
+        main {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 3rem 2rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        .signup-container {
+            width: 100%;
+            max-width: 520px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5),
+                        0 0 100px rgba(99, 102, 241, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .signup-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(99, 102, 241, 0.15);
+            color: var(--accent-primary);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(99, 102, 241, 0.3);
+        }
+
+        .badge::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            background: var(--accent-primary);
+            border-radius: 50%;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.2); }
+        }
+
+        h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--text-primary), var(--accent-primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: 1.125rem;
+            margin-bottom: 2rem;
+            line-height: 1.7;
+        }
+
+        .benefits {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin-bottom: 2rem;
+        }
+
+        .benefit {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        .benefit::before {
+            content: '✓';
+            width: 24px;
+            height: 24px;
+            background: rgba(34, 197, 94, 0.15);
+            color: var(--success);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        /* Form */
+        .signup-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        label {
+            font-weight: 500;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+
+        input[type="email"],
+        input[type="text"] {
+            padding: 1rem 1.25rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            color: var(--text-primary);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        input[type="email"]:focus,
+        input[type="text"]:focus {
+            outline: none;
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 0 3px var(--accent-glow);
+        }
+
+        input::placeholder {
+            color: rgba(160, 160, 192, 0.5);
+        }
+
+        .submit-btn {
+            padding: 1rem 2rem;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 0.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .submit-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .submit-btn:hover::before {
+            left: 100%;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.4);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .privacy-note {
+            text-align: center;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-top: 1rem;
+        }
+
+        .privacy-note a {
+            color: var(--accent-primary);
+            text-decoration: none;
+        }
+
+        /* Success state */
+        .success-message {
+            display: none;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .success-message.active {
+            display: block;
+        }
+
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            background: rgba(34, 197, 94, 0.15);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            margin: 0 auto 1.5rem;
+            animation: scaleIn 0.5s ease;
+        }
+
+        @keyframes scaleIn {
+            0% { transform: scale(0); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .success-message h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .success-message p {
+            color: var(--text-secondary);
+        }
+
+        /* Footer */
+        footer {
+            position: relative;
+            z-index: 10;
+            padding: 2rem;
+            text-align: center;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .footer-content {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .footer-brand {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .footer-tagline {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Easteregg footer */
+        .easteregg {
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border-color);
+            font-size: 0.8rem;
+            color: rgba(160, 160, 192, 0.4);
+            font-style: italic;
+        }
+
+        .easteregg::before {
+            content: '🔧 ';
+        }
+
+        .easteregg:hover {
+            color: var(--accent-primary);
+            cursor: help;
+        }
+
+        /* Responsive */
+        @media (max-width: 640px) {
+            h1 {
+                font-size: 1.875rem;
+            }
+
+            .signup-container {
+                padding: 2rem;
+            }
+
+            header {
+                padding: 1rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-animation"></div>
+
+    <header>
+        <a href="https://theaisessions.net" class="logo">
+            <div class="logo-icon">🎸</div>
+            <span>The AI Sessions</span>
+        </a>
+        <nav class="nav-links">
+            <a href="https://theaisessions.net">Home</a>
+            <a href="https://theaisessions.net/origin">Origin</a>
+            <a href="https://theaisessions.net/bonuses">Bonuses</a>
+        </nav>
+    </header>
+
+    <main>
+        <div class="signup-container">
+            <div class="form-content">
+                <div class="badge">Weekly Newsletter</div>
+                <h1>The Chronicles</h1>
+                <p class="subtitle">Join the journey through AI's wild frontier. Stories, experiments, and discoveries from the garage where code meets creativity.</p>
+
+                <div class="benefits">
+                    <div class="benefit">Behind-the-scenes from The AI Sessions</div>
+                    <div class="benefit">Early access to new tools and experiments</div>
+                    <div class="benefit">No hype, no fluff — just real work</div>
+                </div>
+
+                <form class="signup-form" id="signupForm">
+                    <div class="form-group">
+                        <label for="email">Email address</label>
+                        <input type="email" id="email" name="email" placeholder="you@example.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="name">First name (optional)</label>
+                        <input type="text" id="name" name="name" placeholder="What should we call you?">
+                    </div>
+                    <button type="submit" class="submit-btn">Join The Chronicles</button>
+                </form>
+
+                <p class="privacy-note">We respect your inbox. Unsubscribe anytime. <a href="#">Privacy Policy</a></p>
+            </div>
+
+            <div class="success-message" id="successMessage">
+                <div class="success-icon">✓</div>
+                <h2>You're in!</h2>
+                <p>Welcome to The Chronicles. Check your inbox for a confirmation email — and we'll see you in the next dispatch from the frontier.</p>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-brand">The AI Sessions</div>
+            <div class="footer-tagline">Building the future from the garage up.</div>
+            <div class="easteregg">Crafted with caffeine, curiosity, and a little help from Clutch</div>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById('signupForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const name = document.getElementById('name').value;
+            const submitBtn = document.querySelector('.submit-btn');
+            
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Joining...';
+
+            try {
+                // Send to Global Control
+                const gcResponse = await fetch('https://api.globalcontrol.io/api/ai/contacts', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-API-KEY': '16b5259b6de39c54aa64b2ce991d18c9c40eba27568110a5b3b8b728a716a655'
+                    },
+                    body: JSON.stringify({
+                        email: email,
+                        firstName: name,
+                        tags: ['chronicles-subscriber', 'the-ai-sessions'],
+                        source: 'chronicles-signup-page'
+                    })
+                });
+
+                // Also send to Letterman
+                const lettermanResponse = await fetch('https://api.letterman.ai/api/ai/subscribers', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + 'lmp_8f3a9c2e1d4b5f6a7e8c9d0b1a2f3e4d5c6b7a8f9e0d1c2b3a4f5e6d7c8b9a0f1e2d3c4b5a6f7e8d9c0b1a2f3e4d5'
+                    },
+                    body: JSON.stringify({
+                        email: email,
+                        firstName: name,
+                        publicationId: 'chronicles-theaisessions',
+                        source: 'signup-page'
+                    })
+                });
+
+                // Show success
+                document.querySelector('.form-content').style.display = 'none';
+                document.getElementById('successMessage').classList.add('active');
+
+            } catch (error) {
+                console.error('Signup error:', error);
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Join The Chronicles';
+                alert('Something went wrong. Please try again or contact us directly.');
+            }
+        });
+    </script>
+</body>
+</html>
