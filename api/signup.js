@@ -7,6 +7,7 @@ const TAGS = {
   CHRONICLES: '6abf0b7daf2cbfcf3c19b8a2',
   GETRESPONSE: '69c60ba8d655965de91e6ff1',
   AI_SESSIONS: '6abf0b7eaf2cbfcf3c19b8a7',
+  WORKFLOW_TRIGGER: '6a1479b89623b6235fdfca83', // ai-sessions-subscriber — triggers the welcome email workflow
 };
 
 module.exports = async (req, res) => {
