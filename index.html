@@ -495,49 +495,39 @@
             const email = document.getElementById('email').value;
             const name = document.getElementById('name').value;
             const submitBtn = document.querySelector('.submit-btn');
+            const originalText = submitBtn.textContent;
             
             submitBtn.disabled = true;
             submitBtn.textContent = 'Joining...';
 
             try {
-                // Send to Global Control
-                const gcResponse = await fetch('https://api.globalcontrol.io/api/ai/contacts', {
+                // Use secure server-side API (no exposed keys)
+                const response = await fetch('/api/signup', {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json',
-                        'X-API-KEY': '16b5259b6de39c54aa64b2ce991d18c9c40eba27568110a5b3b8b728a716a655'
+                        'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({
-                        email: email,
                         firstName: name,
-                        tags: ['chronicles-subscriber', 'the-ai-sessions'],
+                        email: email,
                         source: 'chronicles-signup-page'
                     })
                 });
 
-                // Also send to Letterman
-                const lettermanResponse = await fetch('https://api.letterman.ai/api/ai/subscribers', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + 'lmp_8f3a9c2e1d4b5f6a7e8c9d0b1a2f3e4d5c6b7a8f9e0d1c2b3a4f5e6d7c8b9a0f1e2d3c4b5a6f7e8d9c0b1a2f3e4d5'
-                    },
-                    body: JSON.stringify({
-                        email: email,
-                        firstName: name,
-                        publicationId: 'chronicles-theaisessions',
-                        source: 'signup-page'
-                    })
-                });
+                const data = await response.json();
 
-                // Show success
-                document.querySelector('.form-content').style.display = 'none';
-                document.getElementById('successMessage').classList.add('active');
+                if (response.ok && data.success) {
+                    // Show success
+                    document.querySelector('.form-content').style.display = 'none';
+                    document.getElementById('successMessage').classList.add('active');
+                } else {
+                    throw new Error(data.error || 'Failed to subscribe');
+                }
 
             } catch (error) {
                 console.error('Signup error:', error);
                 submitBtn.disabled = false;
-                submitBtn.textContent = 'Join The Chronicles';
+                submitBtn.textContent = originalText;
                 alert('Something went wrong. Please try again or contact us directly.');
             }
         });
