@@ -55,19 +55,18 @@ module.exports = async (req, res) => {
       return res.status(500).json({ error: 'Failed to subscribe. Please try again.' });
     }
 
-    if (contactId) {
-      const tagPromises = Object.values(TAGS).map((tagId) =>
-        fetch(`${GC_BASE_URL}/tags/fire-tag/${tagId}`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json', 'X-API-KEY': GC_API_KEY },
-          body: JSON.stringify({ contactId }),
-        })
-      );
-      const tagResults = await Promise.allSettled(tagPromises);
-      tagResults.forEach((result, index) => {
-        if (result.status === 'rejected') console.error(`Failed to fire tag ${Object.keys(TAGS)[index]}:`, result.reason);
-      });
-    }
+    // Fire all tags using email (contactId fails with "Invalid Contact Email")
+    const tagPromises = Object.values(TAGS).map((tagId) =>
+      fetch(`${GC_BASE_URL}/tags/fire-tag/${tagId}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-API-KEY': GC_API_KEY },
+        body: JSON.stringify({ email: cleanEmail }),
+      })
+    );
+    const tagResults = await Promise.allSettled(tagPromises);
+    tagResults.forEach((result, index) => {
+      if (result.status === 'rejected') console.error(`Failed to fire tag ${Object.keys(TAGS)[index]}:`, result.reason);
+    });
 
     return res.status(200).json({
       success: true,
