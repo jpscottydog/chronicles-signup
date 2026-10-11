@@ -39,7 +39,7 @@ module.exports = async (req, res) => {
 
     if (gcResponse.ok) {
       const gcData = await gcResponse.json();
-      contactId = gcData.data?._id || gcData._id || null;
+      contactId = gcData.data?.contact?._id || gcData.data?.contact?.doc?._id || gcData.data?._id || gcData._id || null;
     } else if (gcResponse.status === 409) {
       contactExists = true;
       const searchResponse = await fetch(
@@ -49,7 +49,7 @@ module.exports = async (req, res) => {
       if (searchResponse.ok) {
         const searchData = await searchResponse.json();
         const contacts = searchData.data || searchData;
-        if (Array.isArray(contacts) && contacts.length > 0) contactId = contacts[0]._id;
+        if (Array.isArray(contacts) && contacts.length > 0) contactId = contacts[0]._id || contacts[0].doc?._id;
       }
     } else {
       const error = await gcResponse.json();
