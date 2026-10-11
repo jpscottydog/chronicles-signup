@@ -71,12 +71,12 @@ module.exports = async (req, res) => {
     });
 
     // Re-update firstName after tags fire (workaround for GC clearing name on workflow trigger)
-    // GC's PUT /contacts/{id} returns 404, so we use POST to /contacts with _id in body
+    // GC's PUT /contacts/{id} returns 404, so we use POST to /contacts with _id + email in body
     if (contactId && cleanName) {
       await fetch(`${GC_BASE_URL}/contacts`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'X-API-KEY': GC_API_KEY },
-        body: JSON.stringify({ _id: contactId, firstName: cleanName }),
+        body: JSON.stringify({ _id: contactId, email: cleanEmail, firstName: cleanName }),
       });
     }
 
