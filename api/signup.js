@@ -20,7 +20,10 @@ module.exports = async (req, res) => {
   try {
     const { email, firstName, source = 'chronicles-signup-page' } = req.body;
     if (!email || !firstName) return res.status(400).json({ error: 'Email and first name are required' });
-    if (!GC_API_KEY) return res.status(500).json({ error: 'Server configuration error' });
+    if (!GC_API_KEY) {
+      console.error('GC_API_KEY not configured');
+      return res.status(500).json({ error: 'Server configuration error' });
+    }
 
     const cleanEmail = email.toLowerCase().trim();
     const cleanName = firstName.trim();
@@ -66,6 +69,16 @@ module.exports = async (req, res) => {
     tagResults.forEach((result, index) => {
       if (result.status === 'rejected') console.error(`Failed to fire tag ${Object.keys(TAGS)[index]}:`, result.reason);
     });
+
+    // Re-update firstName after tags fire (workaround for GC clearing name on workflow trigger)
+    // GC's PUT /contacts/{id} returns 404, so we use POST to /contacts with _id in body
+    if (contactId && cleanName) {
+      await fetch(`${GC_BASE_URL}/contacts`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-API-KEY': GC_API_KEY },
+        body: JSON.stringify({ _id: contactId, firstName: cleanName }),
+      });
+    }
 
     return res.status(200).json({
       success: true,
